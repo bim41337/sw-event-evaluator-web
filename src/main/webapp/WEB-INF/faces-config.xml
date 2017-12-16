@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <navigation-rule>
+        <description>Navigationsregeln für Event-Evaluator</description>
+        <from-view-id>/*</from-view-id>
+    
+        <navigation-case>
+            <from-outcome>current</from-outcome>
+            <to-view-id>#{view.viewId}</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>#{view.viewId}</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>add-kalender</from-outcome>
+            <to-view-id>/add-kalender.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>edit-kalender</from-outcome>
+            <to-view-id>/edit-kalender.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>add-eintrag</from-outcome>
+            <to-view-id>/add-eintrag.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>edit-eintrag</from-outcome>
+            <to-view-id>/edit-eintrag.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>view-eintrag</from-outcome>
+            <to-view-id>/view-eintrag.xhtml</to-view-id>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>suche</from-outcome>
+            <to-view-id>/suche.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>auswertungen</from-outcome>
+            <to-view-id>/auswertungen.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>kalender</from-outcome>
+            <to-view-id>/kalender.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>eintraege</from-outcome>
+            <to-view-id>/eintraege.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/register.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>festivals</from-outcome>
+            <to-view-id>/festivals.xhtml</to-view-id>
+        </navigation-case>
+        
+    </navigation-rule>
+    
+</faces-config>

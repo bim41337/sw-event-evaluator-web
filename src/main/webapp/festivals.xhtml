@@ -1,0 +1,63 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./WEB-INF/templates/page-template.xhtml">
+
+        <ui:define name="title">Festival-Import</ui:define>
+        <ui:define name="activeItem">kalenderItem</ui:define>
+
+        <ui:define name="page-content">
+
+            <h3 class="ui dividing header">
+                Festival-Import
+                <div class="sub header">#{festivalImportBean.kalender.bezeichnung}</div>
+            </h3>
+
+            <ui:fragment rendered="#{not empty festivalImportBean.festivals}">
+                <div class="ui divided list">
+                    <ui:repeat value="#{festivalImportBean.festivals}" var="festival">
+
+                        <div class="item">
+                            <div class="right floated content">
+                                <h:form>
+                                    <h:commandLink styleClass="ui large blue label" action="#{festivalImportBean.importierenFestival(festival)}">
+                                        <i class="external icon"></i>
+                                        Importieren
+                                    </h:commandLink>
+                                </h:form>
+                            </div>
+                            <div class="content">
+                                <div class="header">#{festival.titel}</div>
+                                <div class="description">
+                                    <div class="meta">
+                                        <span>#{festival.zeitraumFormated}</span>
+                                        <span>#{festival.ort}</span>
+                                    </div>
+                                    <p>
+                                        <b>Bands: </b>#{festival.bandsString}<br />
+                                        <b>Genres: </b>#{festival.genresString}
+                                    </p>
+                                    <div class="extra">#{festival.details}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ui:repeat>
+                </div>
+            </ui:fragment>
+
+            <ui:fragment rendered="#{empty festivalImportBean.festivals}">
+                <div class="ui basic centered center aligned segment">
+                    <div class="ui header">
+                        Keine Einträge vorhanden <i class="ui huge meh icon"></i>
+                    </div>
+                </div>
+            </ui:fragment>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

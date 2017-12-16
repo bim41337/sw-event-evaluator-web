@@ -1,0 +1,54 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./WEB-INF/templates/page-template.xhtml">
+
+        <ui:define name="title">Einträge - #{kalenderEintraegeBean.kalender.bezeichnung}</ui:define>
+        <ui:define name="activeItem">kalenderItem</ui:define>
+
+        <ui:define name="page-content">
+
+            <h3 class="ui dividing header">
+                Einträge
+                <div class="sub header">#{kalenderEintraegeBean.kalender.bezeichnung}</div>
+            </h3>
+
+            <h:form styleClass="ui form">
+                <div class="inline fields">
+                    <div class="field">
+                        <h:commandLink styleClass="ui large green label" action="#{editEintragBean.addEintragForm(kalenderEintraegeBean.kalender)}">
+                            <i class="add to calendar icon"></i>
+                            Eintrag hinzufügen
+                        </h:commandLink>
+                    </div>
+                    <div class="four wide field">
+                        <label>Von</label>
+                        <h:inputText value="#{kalenderEintraegeBean.filterVon}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                            <f:passThroughAttribute name="type" value="date" />
+                        </h:inputText>
+                    </div>
+                    <div class="four wide field">
+                        <label>Bis</label>
+                        <h:inputText value="#{kalenderEintraegeBean.filterBis}">
+                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                            <f:passThroughAttribute name="type" value="date" />
+                        </h:inputText>
+                    </div>
+                    <h:commandButton styleClass="ui button" action="#{kalenderEintraegeBean.anzeigenEintraegeGefiltert()}" value="Filtern" />
+                    <h:commandButton styleClass="ui button" action="#{kalenderEintraegeBean.anzeigenEintraege(kalenderEintraegeBean.kalender)}" value="Reset" />
+                </div>
+            </h:form>
+
+            <ui:include src="./WEB-INF/partials/eintraege-cards.xhtml">
+                <ui:param name="eintragListe" value="#{kalenderEintraegeBean.kalenderEintraege}" />
+            </ui:include>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,49 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition>
+
+        <ui:fragment rendered="#{not empty eintragListe}">
+            <div class="ui raised cards">
+                <ui:repeat value="#{eintragListe}" var="eintrag">
+
+                    <div class="card">
+                        <ui:fragment rendered="#{eintrag.oeffentlich}">
+                            <div class="ui blue right corner label">
+                                <i class="unhide icon"></i>
+                            </div>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{not eintrag.oeffentlich}">
+                            <div class="ui red right corner label">
+                                <i class="hide icon"></i>
+                            </div>
+                        </ui:fragment>
+                        <div class="content">
+                            <div class="header">#{eintrag.titel}</div>
+                            <div class="meta">#{eintrag.zeitraumFormated}</div>
+                            <div class="meta">Ort: #{empty eintrag.ort ? "---" : eintrag.ort}</div>
+                            <div class="description">#{eintrag.details}</div>
+                            <div class="ui hidden divider"></div>
+                            <h:form>
+                                <h:commandLink styleClass="ui bottom attached center aligned label" action="#{editEintragBean.viewEintrag(eintrag)}" value="Öffnen" />
+                            </h:form>
+                        </div>
+                    </div>
+
+                </ui:repeat>
+            </div>
+        </ui:fragment>
+
+        <ui:fragment rendered="#{empty eintragListe}">
+            <div class="ui basic centered center aligned segment">
+                <div class="ui header">
+                    Keine Einträge vorhanden <i class="ui huge meh icon"></i>
+                </div>
+            </div>
+        </ui:fragment>
+
+    </ui:composition>
+
+</html>

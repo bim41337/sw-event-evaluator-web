@@ -1,0 +1,14 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition>
+        <h:form styleClass="ui fluid vertical pointing menu">
+            <h:commandLink styleClass="header item" action="index" value="Login" />
+            <h:commandLink styleClass="item" action="register" value="Registrieren" />
+            <h:commandLink styleClass="item" action="#{sucheBean.neueSuche()}" value="Öffentliche Suche" />
+        </h:form>
+    </ui:composition>
+
+</html>

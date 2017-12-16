@@ -1,0 +1,111 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <h:form styleClass="ui form">
+            <div class="eight wide field">
+                <label>Titel</label>
+                <h:inputText value="#{eintrag.titel}" />
+            </div>
+            <div class="eight wide field">
+                <label>Details</label>
+                <h:inputTextarea rows="3" value="#{eintrag.details}" />
+            </div>
+            <div class="eight wide field">
+                <label>Ort</label>
+                <h:inputText value="#{eintrag.ort}" />
+            </div>
+            <div class="eight wide inline field">
+                <div class="ui checkbox">
+                    <h:selectBooleanCheckbox
+                        styleClass="hidden"
+                        tabindex="0"
+                        value="#{eintrag.oeffentlich}" />
+                    <label>Öffentlicher Eintrag?</label>
+                </div>
+            </div>
+            <h4 class="ui horizontal divider header">
+                <i class="hourglass full icon"></i>
+                Zeitraum
+            </h4>
+            <div class="fields">
+                <div class="four wide field">
+                    <label>Von</label>
+                    <h:inputText value="#{eintrag.start}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                        <f:passThroughAttribute name="type" value="date" />
+                    </h:inputText>
+                </div>
+                <div class="three wide field">
+                    <label><h:outputText value="&#160;" /></label>
+                    <h:inputText value="#{editEintragBean.zeitraumZeitStart}">
+                        <f:convertDateTime pattern="HH:mm" timeZone="Europe/Berlin"/>
+                        <f:passThroughAttribute name="type" value="time" />
+                    </h:inputText>
+                </div>
+            </div>
+            <div class="fields">
+                <div class="four wide field">
+                    <label>Bis</label>
+                    <h:inputText value="#{eintrag.ende}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                        <f:passThroughAttribute name="type" value="date" />
+                    </h:inputText>
+                </div>
+                <div class="three wide field">
+                    <label><h:outputText value="&#160;" /></label>
+                    <h:inputText value="#{editEintragBean.zeitraumZeitEnde}">
+                        <f:convertDateTime pattern="HH:mm" timeZone="Europe/Berlin"/>
+                        <f:passThroughAttribute name="type" value="time" />
+                    </h:inputText>
+                </div>
+            </div>
+            <h4 class="ui horizontal divider header">
+                <i class="tags icon"></i>
+                Schlagworte
+            </h4>
+            <div class="eight wide field">
+                <h:inputText value="#{editEintragBean.schlagworte}" />
+                <div class="ui pointing label">Trennen durch Leerzeichen, nur Buchstaben</div>
+            </div>
+            <h4 class="ui horizontal divider header">
+                <i class="line chart icon"></i>
+                Bewertung
+            </h4>
+            <div class="inline field">
+                <div class="ui checkbox">
+                    <h:selectBooleanCheckbox
+                        styleClass="hidden"
+                        tabindex="0"
+                        value="#{editEintragBean.bewertet}" />
+                    <label>Bewerten?</label>
+                </div>
+            </div>
+            <div class="two wide field">
+                <label>Wert</label>
+                <h:inputText value="#{editEintragBean.bewertung.wert}">
+                    <f:passThroughAttribute name="type" value="number" />
+                    <f:passThroughAttribute name="min" value="-1.0" />
+                    <f:passThroughAttribute name="max" value="1.0" />
+                    <f:passThroughAttribute name="step" value="0.1" />
+                    <f:validateDoubleRange minimum="-1.0" maximum="1.0" />
+                </h:inputText>
+            </div>
+            <div class="eight wide field">
+                <label>Bemerkung</label>
+                <h:inputText value="#{editEintragBean.bewertung.notiz}" />
+            </div>
+
+            <h:commandButton styleClass="ui blue button" action="#{editEintragBean.speichernEintrag()}" value="#{formActionText}" />
+            <h:commandButton styleClass="ui red button" action="#{editEintragBean.loeschenEintrag()}" 
+                             value="Löschen" rendered="#{not empty editEintragBean.eintrag.id}" />
+
+        </h:form>
+
+    </ui:composition>
+
+</html>

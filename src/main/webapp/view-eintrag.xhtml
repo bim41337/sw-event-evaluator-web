@@ -1,0 +1,83 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./WEB-INF/templates/page-template.xhtml">
+
+        <ui:define name="title">Eintrag-Details</ui:define>
+        <ui:define name="activeItem">kalenderItem</ui:define>
+
+        <ui:define name="page-content">
+
+            <h3 class="ui dividing header">
+                Eintrag <i>#{editEintragBean.eintrag.titel}</i>
+                <div class="sub header">#{editEintragBean.eintrag.kalender.bezeichnung}</div>
+            </h3>
+
+            <ui:fragment rendered="#{editEintragBean.eintrag.oeffentlich}">
+                <div class="ui blue label">
+                    <i class="unhide icon"></i>
+                    Öffentlich
+                </div>
+            </ui:fragment>
+            <ui:fragment rendered="#{not editEintragBean.eintrag.oeffentlich}">
+                <div class="ui red label">
+                    <i class="hide icon"></i>
+                    Privat
+                </div>
+            </ui:fragment>
+
+            <p>
+                <h5 class="ui header">Titel</h5>
+                #{editEintragBean.eintrag.titel}
+            </p>
+            <p>
+                <h5 class="ui header">Details</h5>
+                #{editEintragBean.eintrag.details}
+            </p>
+            <p>
+                <h5 class="ui header">Ort</h5>
+                #{editEintragBean.eintrag.ort}
+            </p>
+
+            <p>
+                <h5 class="ui header">Zeitraum</h5>
+                #{editEintragBean.eintrag.zeitraumFormated}
+            </p>
+
+            <p>
+                <h5 class="ui header">Schlagworte</h5>
+                #{editEintragBean.schlagworte}
+            </p>
+            <ui:fragment rendered="#{editEintragBean.bewertet}">
+                <p>
+                    <h5 class="ui header">Bewertung</h5>
+                    <b>Wert: </b><h:outputText value="#{editEintragBean.bewertung.wert}">
+                        <f:convertNumber pattern="0.0" />
+                    </h:outputText>
+                    <br />
+                    <b>Datum: </b>#{editEintragBean.bewertung.datumFormated}
+                    <br />
+                    <b>Kommentar: </b>#{editEintragBean.bewertung.notiz}
+                </p>
+            </ui:fragment>
+
+            <h:form>
+                <ui:fragment rendered="#{editEintragBean.eigenerEintrag}">
+                    <h:commandButton styleClass="ui blue button" action="#{editEintragBean.editEintragForm(editEintragBean.eintrag)}" value="Bearbeiten" />
+                </ui:fragment>
+                <ui:fragment rendered="#{not editEintragBean.eigenerEintrag}">
+                    <h:commandLink styleClass="ui large label" action="suche">
+                        <i class="arrow left icon"></i>
+                        Zurück
+                    </h:commandLink>
+                </ui:fragment>
+            </h:form>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

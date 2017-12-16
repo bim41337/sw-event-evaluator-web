@@ -1,0 +1,24 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition>
+
+        <h:form styleClass="ui form">
+            <div class="eight wide field">
+                <label>Bezeichnung</label>
+                <h:inputText value="#{kalender.bezeichnung}" />
+            </div>
+            <div class="eight wide field">
+                <label>Beschreibung</label>
+                <h:inputTextarea rows="3" value="#{kalender.beschreibung}" />
+            </div>
+            <h:commandButton styleClass="ui blue button" action="#{editKalenderBean.speichernKalender()}" value="#{formActionText}" />
+            <h:commandButton styleClass="ui red button" action="#{editKalenderBean.loeschenKalender()}" 
+                             value="Löschen" rendered="#{!empty editKalenderBean.kalender.id}" />
+        </h:form>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://services.swprojektjohn.joa44741.oth.de/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="FestivalService" targetNamespace="http://services.swprojektjohn.joa44741.oth.de/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://services.swprojektjohn.joa44741.oth.de/" elementFormDefault="unqualified" targetNamespace="http://services.swprojektjohn.joa44741.oth.de/" version="1.0">
+
+  <xs:element name="abstractLongEntity" type="tns:abstractLongEntity"/>
+
+  <xs:element name="bandEntity" type="tns:bandEntity"/>
+
+  <xs:element name="buehneEntity" type="tns:buehneEntity"/>
+
+  <xs:element name="campingVarianteEntity" type="tns:campingVarianteEntity"/>
+
+  <xs:element name="festivalEntity" type="tns:festivalEntity"/>
+
+  <xs:element name="festivalWithDetailsDto" type="tns:festivalWithDetailsDto"/>
+
+  <xs:element name="findFreigegebeneFestivals" type="tns:findFreigegebeneFestivals"/>
+
+  <xs:element name="findFreigegebeneFestivalsResponse" type="tns:findFreigegebeneFestivalsResponse"/>
+
+  <xs:element name="lineupDateEntity" type="tns:lineupDateEntity"/>
+
+  <xs:element name="locationEntity" type="tns:locationEntity"/>
+
+  <xs:element name="retrieveFestivalDtoByIdIncludingDetails" type="tns:retrieveFestivalDtoByIdIncludingDetails"/>
+
+  <xs:element name="retrieveFestivalDtoByIdIncludingDetailsResponse" type="tns:retrieveFestivalDtoByIdIncludingDetailsResponse"/>
+
+  <xs:element name="ticketArtEntity" type="tns:ticketArtEntity"/>
+
+  <xs:complexType name="retrieveFestivalDtoByIdIncludingDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="retrieveFestivalDtoByIdIncludingDetailsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:festivalWithDetailsDto"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="festivalWithDetailsDto">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="veranstalter" type="xs:string"/>
+      <xs:element minOccurs="0" name="webseite" type="xs:string"/>
+      <xs:element minOccurs="0" name="logoUrl" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="tns:locationEntity"/>
+      <xs:element minOccurs="0" name="ticketKontingent" type="xs:int"/>
+      <xs:element minOccurs="0" name="verkaufteTickets" type="xs:int"/>
+      <xs:element minOccurs="0" name="lageplan" type="xs:string"/>
+      <xs:element minOccurs="0" name="datumVon" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="datumBis" type="xs:dateTime"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="zusatzeigenschaften" nillable="true" type="tns:zusatzeigenschaftEnum"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="campingVarianten" nillable="true" type="tns:campingVarianteEntity"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="ticketArten" nillable="true" type="tns:ticketArtEntity"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="lineupDates" nillable="true" type="tns:lineupDateEntity"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="buehnen" nillable="true" type="tns:buehneEntity"/>
+      <xs:element minOccurs="0" name="status" type="tns:statusEnum"/>
+      <xs:element minOccurs="0" name="wetterDto" type="tns:wetterDto"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="locationEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="strasse" type="xs:string"/>
+          <xs:element minOccurs="0" name="ort" type="xs:string"/>
+          <xs:element minOccurs="0" name="plz" type="xs:string"/>
+          <xs:element minOccurs="0" name="bundesland" type="tns:bundeslandEnum"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType abstract="true" name="abstractLongEntity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="campingVarianteEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="campingArt" type="tns:campingArtEnum"/>
+          <xs:element minOccurs="0" name="extrakosten" type="xs:decimal"/>
+          <xs:element minOccurs="0" name="grillenErlaubt" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="glasflaschenErlaubt" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ticketArtEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="tagArt" type="tns:tagArtEnum"/>
+          <xs:element minOccurs="0" name="tag" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="preis" type="xs:decimal"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="lineupDateEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="tag" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="uhrzeitVon" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="uhrzeitBis" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="band" type="tns:bandEntity"/>
+          <xs:element minOccurs="0" name="buehne" type="tns:buehneEntity"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bandEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="beschreibung" type="xs:string"/>
+          <xs:element minOccurs="0" name="webseite" type="xs:string"/>
+          <xs:element minOccurs="0" name="facebookseite" type="xs:string"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="genres" nillable="true" type="tns:genreEnum"/>
+          <xs:element minOccurs="0" name="status" type="tns:statusEnum"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="buehneEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="ueberdacht" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="wetterDto">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="findFreigegebeneFestivals">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="findFreigegebeneFestivalsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:festivalEntity"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="festivalEntity">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractLongEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+          <xs:element minOccurs="0" name="veranstalter" type="xs:string"/>
+          <xs:element minOccurs="0" name="webseite" type="xs:string"/>
+          <xs:element minOccurs="0" name="logoUrl" type="xs:string"/>
+          <xs:element minOccurs="0" name="location" type="tns:locationEntity"/>
+          <xs:element minOccurs="0" name="ticketKontingent" type="xs:int"/>
+          <xs:element minOccurs="0" name="verkaufteTickets" type="xs:int"/>
+          <xs:element minOccurs="0" name="lageplan" type="xs:string"/>
+          <xs:element minOccurs="0" name="datumVon" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="datumBis" type="xs:dateTime"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="zusatzeigenschaften" nillable="true" type="tns:zusatzeigenschaftEnum"/>
+          <xs:element minOccurs="0" name="status" type="tns:statusEnum"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="bundeslandEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BADEN_WUERTTEMBERG"/>
+      <xs:enumeration value="BAYERN"/>
+      <xs:enumeration value="BERLIN"/>
+      <xs:enumeration value="BRANDENBURG"/>
+      <xs:enumeration value="BREMEN"/>
+      <xs:enumeration value="HAMBURG"/>
+      <xs:enumeration value="HESSEN"/>
+      <xs:enumeration value="MECKLENBURG_VORPOMMERN"/>
+      <xs:enumeration value="NIEDERSACHSEN"/>
+      <xs:enumeration value="NORDRHEIN_WESTFALEN"/>
+      <xs:enumeration value="RHEINLAND_PFALZ"/>
+      <xs:enumeration value="SAARLAND"/>
+      <xs:enumeration value="SACHSEN"/>
+      <xs:enumeration value="SACHSEN_ANHALT"/>
+      <xs:enumeration value="SCHLESWIG_HOLSTEIN"/>
+      <xs:enumeration value="THUERINGEN"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="zusatzeigenschaftEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MUELLPFAND"/>
+      <xs:enumeration value="ESSENSSTAENDE"/>
+      <xs:enumeration value="SANITAERE_ANLAGEN"/>
+      <xs:enumeration value="UNTER_18"/>
+      <xs:enumeration value="PARKMOEGLICHKEITEN"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="campingArtEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NORMAL"/>
+      <xs:enumeration value="PREMIUM"/>
+      <xs:enumeration value="GREENCAMPING"/>
+      <xs:enumeration value="WOHNMOBIL"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tagArtEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="KOMPLETT_TICKET"/>
+      <xs:enumeration value="TAGESTICKET"/>
+      <xs:enumeration value="ZWEI_TAGE_TICKET"/>
+      <xs:enumeration value="DREI_TAGE_TICKET"/>
+      <xs:enumeration value="VIER_TAGE_TICKET"/>
+      <xs:enumeration value="FUENF_TAGE_TICKET"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="genreEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ALTERNATIVE"/>
+      <xs:enumeration value="BLUES"/>
+      <xs:enumeration value="KLASSIK"/>
+      <xs:enumeration value="COUNTRY"/>
+      <xs:enumeration value="DIVERSE"/>
+      <xs:enumeration value="ELECTRONIC"/>
+      <xs:enumeration value="HIPHOP_RAP"/>
+      <xs:enumeration value="INDIE_POP"/>
+      <xs:enumeration value="INSTRUMENTAL"/>
+      <xs:enumeration value="JAZZ"/>
+      <xs:enumeration value="LATIN"/>
+      <xs:enumeration value="POP"/>
+      <xs:enumeration value="R_AND_B"/>
+      <xs:enumeration value="REGGAE"/>
+      <xs:enumeration value="ROCK"/>
+      <xs:enumeration value="SCHLAGER"/>
+      <xs:enumeration value="SINGER_SONGWRITER"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="statusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ERSTELLT"/>
+      <xs:enumeration value="FREIGEGEBEN"/>
+      <xs:enumeration value="LOESCHUNG_ANGEFORDERT"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="retrieveFestivalDtoByIdIncludingDetailsResponse">
+    <wsdl:part element="tns:retrieveFestivalDtoByIdIncludingDetailsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="retrieveFestivalDtoByIdIncludingDetails">
+    <wsdl:part element="tns:retrieveFestivalDtoByIdIncludingDetails" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findFreigegebeneFestivalsResponse">
+    <wsdl:part element="tns:findFreigegebeneFestivalsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findFreigegebeneFestivals">
+    <wsdl:part element="tns:findFreigegebeneFestivals" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="FestivalServiceImpl">
+    <wsdl:operation name="retrieveFestivalDtoByIdIncludingDetails">
+      <wsdl:input message="tns:retrieveFestivalDtoByIdIncludingDetails" name="retrieveFestivalDtoByIdIncludingDetails">
+    </wsdl:input>
+      <wsdl:output message="tns:retrieveFestivalDtoByIdIncludingDetailsResponse" name="retrieveFestivalDtoByIdIncludingDetailsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findFreigegebeneFestivals">
+      <wsdl:input message="tns:findFreigegebeneFestivals" name="findFreigegebeneFestivals">
+    </wsdl:input>
+      <wsdl:output message="tns:findFreigegebeneFestivalsResponse" name="findFreigegebeneFestivalsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="FestivalServiceSoapBinding" type="tns:FestivalServiceImpl">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="retrieveFestivalDtoByIdIncludingDetails">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="retrieveFestivalDtoByIdIncludingDetails">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="retrieveFestivalDtoByIdIncludingDetailsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="findFreigegebeneFestivals">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="findFreigegebeneFestivals">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="findFreigegebeneFestivalsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="FestivalService">
+    <wsdl:port binding="tns:FestivalServiceSoapBinding" name="FestivalPort">
+      <soap:address location="http://im-lamport:8080/FestivalPlaner-John/FestivalService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,32 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./WEB-INF/templates/page-template.xhtml">
+
+        <ui:define name="title">Eintrag</ui:define>
+        <ui:define name="activeItem">kalenderItem</ui:define>
+
+        <ui:define name="page-menu">
+            <ui:include src="./WEB-INF/partials/home-menu.xhtml">
+                <ui:param name="activeItem" value="kalenderItem" />
+            </ui:include>
+        </ui:define>
+
+        <ui:define name="page-content">
+
+            <h3 class="ui dividing header">
+                Kalender ändern
+                <div class="sub header">#{editKalenderBean.kalender.bezeichnung}</div>
+            </h3>
+
+            <ui:include src="./WEB-INF/partials/edit-kalender-form.xhtml">
+                <ui:param name="kalender" value="#{editKalenderBean.kalender}" />
+                <ui:param name="formActionText" value="Ändern" />
+            </ui:include>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>

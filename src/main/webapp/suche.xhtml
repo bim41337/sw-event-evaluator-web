@@ -1,0 +1,45 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./WEB-INF/templates/page-template.xhtml">
+
+        <ui:define name="title">Eintrag-Suche</ui:define>
+        <ui:define name="activeItem">sucheItem</ui:define>
+
+        <ui:define name="page-content">
+
+            <h3 class="ui dividing header">Einträge suchen</h3>
+
+            <ui:fragment rendered="#{empty sucheBean.suchErgebnisEintraege}">
+                <h:form styleClass="ui form">
+                    <ui:include src="./WEB-INF/partials/suche-form-fields.xhtml" />
+                    <h:commandButton styleClass="ui blue button" action="#{sucheBean.suchenEintraege()}" value="Suche" />
+                </h:form>
+            </ui:fragment>
+            <ui:fragment rendered="#{not empty sucheBean.suchErgebnisEintraege}">
+                <h:form>
+                    <h:commandLink styleClass="ui large label" action="#{sucheBean.neueSuche()}">
+                        <i class="arrow left icon"></i>
+                        Zurück
+                    </h:commandLink>
+                </h:form>
+                <p>
+                    <ui:fragment rendered="#{not empty sucheBean.suchBegriff}">
+                        Suchbegriff: "#{sucheBean.suchBegriff}"
+                        <br />
+                    </ui:fragment>
+                    Zeitraum: #{sucheBean.suchzeitraumFormated}
+                </p>
+
+                <ui:include src="./WEB-INF/partials/eintraege-cards.xhtml">
+                    <ui:param name="eintragListe" value="#{sucheBean.suchErgebnisEintraege}" />
+                </ui:include>
+            </ui:fragment>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
