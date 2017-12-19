@@ -1,3 +1,10 @@
 div.card .content .header {
     margin-right: 2em;
 }
+
+div#auswertungChartContainer {
+    margin-top: 2em;
+    width: 100%;
+    height: 300px;
+    border: 1px solid black;
+}

@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -34,7 +35,6 @@ import javax.transaction.Transactional;
 import javax.xml.ws.WebServiceRef;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
-import org.joda.time.DateTime;
 
 /**
  * Service für Kalendereinträge
@@ -63,13 +63,13 @@ public class KalenderService implements KalenderIF {
     @Transactional
     public List<Eintrag> holenOeffentlicheEintraegeFuerTag(Date datum,
             String ort) {
-        Date startDatum = new DateTime(datum).withTimeAtStartOfDay().toDate();
-        Date endeDatum = new DateTime(datum).withTime(23, 59, 59, 0).toDate();
+        Zeitraum abfrageZeitraum = ZeitraumUtils
+                .erstellenStandardZeitraum(datum, datum);
 
         TypedQuery<Eintrag> query = entityManager.
                 createNamedQuery(Eintrag.NQ_PARAMS_EINTRAEGE_ORT_ZEITRAUM_OEFFENTLICH, Eintrag.class);
-        query.setParameter("zStart", startDatum);
-        query.setParameter("zEnde", endeDatum);
+        query.setParameter("zStart", abfrageZeitraum.getStart());
+        query.setParameter("zEnde", abfrageZeitraum.getEnde());
         query.setParameter("oName", ort);
 
         List<Eintrag> oeffentlicheEintraege = query.getResultList();
@@ -86,6 +86,7 @@ public class KalenderService implements KalenderIF {
      * ### Servicemethoden ###
      */
     @Transactional
+    @WebMethod( exclude = true )
     public Eintrag erzeugenEintrag(Eintrag eintrag) {
         Kalender evtKalender = entityManager.find(Kalender.class, eintrag.
                 getKalender().getId());
@@ -100,6 +101,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public Eintrag aendernEintrag(Eintrag eintrag) {
         Set<Schlagwort> neueSchlagworte = new HashSet<>(eintrag.getSchlagworte());
         eintrag.clearSchlagworte();
@@ -151,6 +153,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public void loeschenEintrag(Long eintragId) {
         Eintrag eintragEntity = entityManager.find(Eintrag.class, eintragId);
         eintragEntity.getKalender().entfernenEintrag(eintragEntity);
@@ -160,6 +163,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public List<Eintrag> holenEintraegeZuKalender(long kalenderId) {
         Kalender kalenderEntity = entityManager.find(Kalender.class, kalenderId);
         TypedQuery<Eintrag> query = entityManager
@@ -170,6 +174,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public List<Eintrag> holenEintraegeZuKalenderInZeitraum(long kalenderId,
             Zeitraum zeitraum) {
         Kalender kalenderEntity = entityManager.find(Kalender.class, kalenderId);
@@ -183,6 +188,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public List<Eintrag> suchenOeffentlicheEintraege(String begriff,
             Zeitraum zeitraum) {
         TypedQuery<Eintrag> eintragQuery;
@@ -203,6 +209,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public List<Eintrag> suchenEintraegeFuerUser(String begriff,
             Zeitraum zeitraum, Benutzer benutzer) {
         TypedQuery<Eintrag> eintragQuery;
@@ -223,82 +230,8 @@ public class KalenderService implements KalenderIF {
         return eintragQuery.getResultList();
     }
 
-    /*
-     * @Deprecated
-     * @Transactional
-     * public List<Eintrag> suchenEintraegeFuerZeitraumUndUser(Zeitraum zeitraum,
-     * Long userId) {
-     * Benutzer kalenderBenutzer = entityManager.find(Benutzer.class, userId);
-     * TypedQuery<Eintrag> zeitraumQuery = entityManager.
-     * createNamedQuery(Eintrag.NQ_PARAMS_EINTRAEGE_ZEITRAUM_USER, Eintrag.class);
-     *
-     * zeitraumQuery.setParameter("zStart", zeitraum.getStart());
-     * zeitraumQuery.setParameter("zEnde", zeitraum.getEnde());
-     * zeitraumQuery.setParameter("user", kalenderBenutzer);
-     *
-     * return zeitraumQuery.getResultList();
-     * }
-     *
-     * @Deprecated
-     * @Transactional
-     * public Set<Eintrag> suchenEintraegeFuerUser(String suchbegriff, Long userId) {
-     * Set<Eintrag> eintragTreffer = new HashSet<>();
-     *
-     * Benutzer kalenderBenutzer = entityManager.find(Benutzer.class, userId);
-     * TypedQuery<Eintrag> eintragQuery = entityManager.
-     * createNamedQuery(Eintrag.NQ_PARAMS_SUCHE_USER, Eintrag.class);
-     * eintragQuery.setParameter("term", "%" + suchbegriff.toLowerCase() + "%");
-     * eintragQuery.setParameter("user", kalenderBenutzer);
-     * eintragTreffer.addAll(eintragQuery.getResultList());
-     *
-     * Set<Eintrag> schlagwortTreffer = findenSchlagworte(suchbegriff.
-     * split(" ")).stream().flatMap(s -> s.getEintraege().stream()).
-     * collect(Collectors.toSet());
-     * eintragTreffer.addAll(schlagwortTreffer);
-     *
-     * return eintragTreffer;
-     * }
-     *
-     * @Deprecated
-     * private Set<Schlagwort> findenSchlagworte(String... suchbegriffe) {
-     * Set<Schlagwort> treffer = new HashSet<>();
-     *
-     * if (suchbegriffe.length > 0) {
-     * TypedQuery<Schlagwort> query;
-     * for (String tag : suchbegriffe) {
-     * query = entityManager.
-     * createNamedQuery(Schlagwort.NQ_SCHLAGWORTE_MIT_TEXT_PARAM, Schlagwort.class);
-     * query.setParameter("pTag", "%" + tag.toLowerCase() + "%");
-     * treffer.addAll(query.getResultList());
-     * }
-     * }
-     *
-     * return treffer;
-     * }
-     *
-     * @Transactional
-     * public List<Eintrag> suchenEintraegeMitSchlagwort(Schlagwort schlagwort) {
-     * TypedQuery<Eintrag> evtQuery = entityManager.
-     * createQuery("SELECT evt FROM Eintrag evt JOIN evt.schlagworte sw WHERE sw.titel LIKE :sText AND evt.oeffentlich = TRUE", Eintrag.class);
-     * evtQuery.setParameter("sText", schlagwort.getTitel());
-     *
-     * return evtQuery.getResultList();
-     * }
-     *
-     * @Transactional
-     * public List<Eintrag> suchenEintraegeMitSchlagwortFuerBenutzer(
-     * Schlagwort schlagwort,
-     * Long userId) {
-     * Benutzer user = entityManager.find(Benutzer.class, userId);
-     * TypedQuery<Eintrag> evtQuery = entityManager.
-     * createQuery("SELECT evt FROM Eintrag evt JOIN evt.schlagworte sw WHERE sw.titel LIKE :sText AND (evt.oeffentlich = TRUE OR evt.kalender.benutzer = :eUser)", Eintrag.class);
-     * evtQuery.setParameter("sText", schlagwort.getTitel());
-     * evtQuery.setParameter("eUser", user);
-     *
-     * return evtQuery.getResultList();
-     * }
-     */
     @Transactional
+    @WebMethod( exclude = true )
     public Set<Schlagwort> holenSchlagworteZuEintrag(long eintragId) {
         Eintrag eintrag = entityManager.find(Eintrag.class, eintragId);
 
@@ -306,6 +239,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public List<Festival> holenFreigegebeneFestivals() {
         List<FestivalEntity> festivals;
         try { // Call Web Service Operation
@@ -366,6 +300,7 @@ public class KalenderService implements KalenderIF {
      * ### KALENDER ###
      */
     @Transactional
+    @WebMethod( exclude = true )
     public Kalender erzeugenKalender(Kalender kalender) {
         TypedQuery<Kalender> query = entityManager.
                 createQuery("Select k From Kalender k Where k.bezeichnung = :kName And k.benutzer = :kUser", Kalender.class);
@@ -391,6 +326,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public List<Kalender> holenKalenderFuerBenutzer(Benutzer benutzer) {
         TypedQuery<Kalender> query = entityManager.
                 createNamedQuery(Kalender.NQ_KALENDER_BENUTZER, Kalender.class);
@@ -399,6 +335,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public Kalender aendernKalender(Kalender kalender) {
 
         if (StringUtils.isEmpty(kalender.getBezeichnung())) {
@@ -414,6 +351,7 @@ public class KalenderService implements KalenderIF {
     }
 
     @Transactional
+    @WebMethod( exclude = true )
     public void loeschenKalender(long kalenderId) {
         Kalender kalenderEntity = entityManager.find(Kalender.class, kalenderId);
 

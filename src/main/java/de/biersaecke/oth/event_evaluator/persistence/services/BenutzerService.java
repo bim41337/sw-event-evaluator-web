@@ -63,7 +63,6 @@ public class BenutzerService {
             Benutzer benutzerResult = benutzerQuery.getSingleResult();
             return benutzerResult;
         } catch (NoResultException | NonUniqueResultException ex) {
-            ex.printStackTrace();
             throw new RuntimeException("Kein Nutzer mit diesen Daten vorhanden.");
         }
     }

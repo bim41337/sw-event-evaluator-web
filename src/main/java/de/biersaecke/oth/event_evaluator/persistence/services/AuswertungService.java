@@ -34,11 +34,17 @@ public class AuswertungService {
 
     @Transactional
     public Auswertung fuellenAuswertung(Auswertung auswertung) {
-        List<Eintrag> postenList = kalenderService
-                .suchenEintraegeFuerUser(null, auswertung.getZeitraum(), auswertung
-                        .getBenutzer());
-        Collections.sort(postenList);
-        postenList.forEach(auswertung::hinzufuegenPosten);
+        if (auswertung.getId() != null) {
+            auswertung = entityManager
+                    .find(Auswertung.class, auswertung.getId());
+        } else {
+            List<Eintrag> postenList = kalenderService
+                    .suchenEintraegeFuerUser(null, auswertung.getZeitraum(), auswertung
+                            .getBenutzer());
+            Collections.sort(postenList);
+            postenList.forEach(auswertung::hinzufuegenPosten);
+        }
+        auswertung.errechneDurchschnitt();
 
         return auswertung;
     }
@@ -77,10 +83,6 @@ public class AuswertungService {
     @Transactional
     public void loeschenAuswertung(Auswertung auswertung) {
         auswertung = entityManager.merge(auswertung);
-        for (Eintrag posten : auswertung.getPosten()) {
-            auswertung.entfernenPosten(posten);
-        }
-
         entityManager.remove(auswertung);
     }
 

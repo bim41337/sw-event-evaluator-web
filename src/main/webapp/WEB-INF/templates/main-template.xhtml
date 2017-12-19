@@ -7,6 +7,7 @@
     <h:head>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/jquery.canvasjs.min.js"></script>
         <link rel="stylesheet" media="screen" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css" />
         <link rel="shortcut icon" type="image/png" href="#{resource['images/favicon.png']}" />
         <h:outputStylesheet library="css" name="styles.css" />
@@ -21,6 +22,37 @@
             $(document).ready(function () {
                 $('.ui.checkbox').checkbox();
                 $('.ui.dropdown').dropdown();
+
+                if ($('#auswertungChartContainer').length > 0 === true) {
+                    const chartOptions = {
+                        interactivityEnabled: false,
+                        title: {text: 'Bewertungen', fontColor: 'black'},
+                        axisY: {
+                            tickThickness: 0,
+                            lineThickness: 0,
+                            valueFormatString: ' ',
+                            gridThickness: 0
+                        },
+                        axisX: {
+                            tickThickness: 0,
+                            lineThickness: 0,
+                            gridThickness: 0
+                        },
+                        data: [{
+                                indexLabelPlacement: 'outside',
+                                indexLabelFontColor: 'black',
+                                indexLabelFontWeight: 600,
+                                color: 'darkgrey',
+                                type: 'bar',
+                                dataPoints: [
+            #{auswertungenBean.postenChartDatenString}
+                                ]
+                            }]
+                    };
+
+                    $('#auswertungChartContainer').CanvasJSChart(chartOptions);
+                    $(this).fadeOut();
+                }
             });
         </script>
     </h:body>

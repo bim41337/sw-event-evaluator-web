@@ -7,7 +7,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.inject.Inject;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 @FacesConverter( "de.biersaecke.oth.event_evaluator.persistence.ui.utils.AuswertungenConverter" )
 public class AuswertungenConverter implements Converter {
 
-    @Inject
+    @Setter
     private AuswertungService auswertungService;
 
     @Override

@@ -75,7 +75,7 @@ public class Auswertung extends AbstractEntity {
         DoubleStream ds = posten.stream().filter(e -> e.getBewertung() != null).
                 mapToDouble(e -> e.getBewertung().getWert());
 
-        durchschnitt = posten.isEmpty() ? 0L : ds.average().getAsDouble();
+        durchschnitt = ds.average().orElse(0.0);
     }
 
     public Double getDurchschnitt() {
@@ -101,10 +101,11 @@ public class Auswertung extends AbstractEntity {
 
     @Override
     public String toString() {
-        return String.format("%s",
+        return String.format("%s (%s)",
                 ZeitraumUtils.formatierenZeitraum(
                         zeitraum.getStart(),
-                        zeitraum.getEnde(), false)
+                        zeitraum.getEnde(), false),
+                ZeitraumUtils.formatierenDatumMitZeit(getCreationDate())
         );
     }
 

@@ -10,7 +10,9 @@ import de.biersaecke.oth.event_evaluator.persistence.utils.ZeitraumUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -58,6 +60,13 @@ public class AuswertungenSessionBean implements Serializable {
     public AuswertungenSessionBean() {
     }
 
+    public String startenAuswertungen() {
+        gewaehlteAuswertung = null;
+        dropdownWahlAuswertung = null;
+        erneuernAuswertungenListe();
+        return GeneralConstants.NAV_CASE_AUSWERTUNGEN;
+    }
+
     public String zeitraumAuswerten() {
         Zeitraum auswertungszeitraum = ZeitraumUtils
                 .erstellenStandardZeitraum(zeitraumStart, zeitraumEnde);
@@ -74,18 +83,16 @@ public class AuswertungenSessionBean implements Serializable {
             return GeneralConstants.NAV_CASE_ERROR;
         }
 
-        gewaehlteAuswertung = auswertungService
-                .fuellenAuswertung(new Auswertung(auswertungszeitraum));
-        gewaehlteAuswertung.errechneDurchschnitt();
+        Auswertung neueAuswertung = new Auswertung(auswertungszeitraum);
+        neueAuswertung.setBenutzer(userBean.getBenutzer());
+        fuellenGewaehlteAuswertung(neueAuswertung);
 
         return GeneralConstants.NAV_CASE_AUSWERTUNGEN;
     }
 
-    public String auswertungAnzeigen() {
+    public String anzeigenAuswertung() {
         if (dropdownWahlAuswertung != null) {
-            gewaehlteAuswertung = auswertungService
-                    .fuellenAuswertung(dropdownWahlAuswertung);
-            gewaehlteAuswertung.errechneDurchschnitt();
+            fuellenGewaehlteAuswertung(dropdownWahlAuswertung);
 
             return GeneralConstants.NAV_CASE_AUSWERTUNGEN;
         }
@@ -115,26 +122,38 @@ public class AuswertungenSessionBean implements Serializable {
             auswertungService.loeschenAuswertung(gewaehlteAuswertung);
         }
 
-        return GeneralConstants.NAV_CASE_AUSWERTUNGEN;
+        return startenAuswertungen();
     }
 
     public String getPostenChartDatenString() {
         StringBuilder chartDataBuilder = new StringBuilder();
         if (gewaehlteAuswertung != null) {
             double postenBewertung;
-            for (Eintrag posten : gewaehlteAuswertung.getPosten()) {
+            Iterator<Eintrag> iterator = gewaehlteAuswertung.getPosten()
+                    .iterator();
+            Eintrag posten;
+
+            while (iterator.hasNext()) {
+                posten = iterator.next();
                 postenBewertung = posten.getBewertung() != null ? posten
                         .getBewertung().getWert() : 0.0f;
                 chartDataBuilder.append(String.format(
-                        "{ y: %.1f, label: '%.1f'  indexLabel: '%s' },",
+                        Locale.ROOT,
+                        "{ y: %.1f, label: '%.1f', indexLabel: '%s' }%s",
                         postenBewertung,
                         postenBewertung,
-                        posten.getTitel()
+                        posten.getTitel(),
+                        iterator.hasNext() ? "," : ""
                 ));
             }
         }
 
         return chartDataBuilder.toString();
+    }
+
+    private void fuellenGewaehlteAuswertung(Auswertung auswertung) {
+        gewaehlteAuswertung = auswertungService
+                .fuellenAuswertung(auswertung);
     }
 
     private void erneuernAuswertungenListe() {
@@ -148,8 +167,8 @@ public class AuswertungenSessionBean implements Serializable {
         zeitraumStart = new Date();
         zeitraumEnde = new Date();
         auswertungenConverter = new AuswertungenConverter();
+        auswertungenConverter.setAuswertungService(auswertungService);
         auswertungenList = new ArrayList<>();
-        erneuernAuswertungenListe();
     }
 
 }

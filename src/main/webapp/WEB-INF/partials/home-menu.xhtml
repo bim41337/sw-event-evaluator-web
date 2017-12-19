@@ -6,7 +6,7 @@
     <ui:composition>
         <h:form styleClass="ui fluid vertical pointing menu">
             <h:commandLink styleClass="item kalenderItem" action="kalender" value="Kalender" />
-            <h:commandLink styleClass="item auswertungItem" action="auswertungen" value="Auswertungen" />
+            <h:commandLink styleClass="item auswertungItem" action="#{auswertungenBean.startenAuswertungen()}" value="Auswertungen" />
             <h:commandLink styleClass="item sucheItem" action="#{sucheBean.neueSuche()}" value="Suchen" />
             <h:commandLink styleClass="item" action="#{userBean.logoutBenutzer()}" value="Logout" />
         </h:form>

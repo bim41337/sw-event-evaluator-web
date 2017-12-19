@@ -23,6 +23,14 @@ public class ZeitraumUtils {
         return TAG_FORMATTER.format(datum);
     }
 
+    /**
+     * Gibt einen Zeitraum (mit oder ohne Datum) formatiert mit Start- und Enddatum an
+     *
+     * @param zeitraumStart Startdatum
+     * @param zeitraumEnde Enddatum
+     * @param mitZeit Gibt an, ob die Zeit mitformatiert werden soll
+     * @return Formatierter String des Zeitraums
+     */
     public static String formatierenZeitraum(Date zeitraumStart,
             Date zeitraumEnde, boolean mitZeit) {
         String start = mitZeit ? formatierenDatumMitZeit(zeitraumStart) : formatierenDatumNurTag(zeitraumStart);
@@ -64,7 +72,7 @@ public class ZeitraumUtils {
      */
     public static Zeitraum erstellenStandardZeitraum(Date start, Date ende) {
         return new Zeitraum(new DateTime(start).withTimeAtStartOfDay().toDate(),
-                new DateTime(ende).withTime(23, 59, 59, 0).toDate()
+                new DateTime(ende).withTime(23, 59, 0, 0).toDate()
         );
     }
 
