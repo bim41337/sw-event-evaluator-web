@@ -118,7 +118,7 @@ public class Eintrag extends AbstractEntity implements Comparable<Eintrag> {
     @Setter
     private Bewertung bewertung;
 
-    @ManyToOne
+    @ManyToOne( optional = false )
     @Getter
     @Setter
     private Kalender kalender;

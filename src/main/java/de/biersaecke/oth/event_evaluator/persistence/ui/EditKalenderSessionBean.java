@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -56,6 +57,10 @@ public class EditKalenderSessionBean implements Serializable {
 
     public String speichernKalender() {
         try {
+            if (StringUtils.isEmpty(kalender.getBezeichnung())) {
+                throw new IncorrectEntityConfigurationException(IncorrectEntityConfigurationException.ConfigErrorEnum.MISSING_CALENDAR_ARGUMENTS);
+            }
+
             if (kalender.getId() == null) {
                 kalender = kalenderService.erzeugenKalender(kalender);
             } else {
