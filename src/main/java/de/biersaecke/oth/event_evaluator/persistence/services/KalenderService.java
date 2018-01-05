@@ -1,5 +1,6 @@
 package de.biersaecke.oth.event_evaluator.persistence.services;
 
+import de.biersaecke.oth.event_evaluator.persistence.entities.Auswertung;
 import de.biersaecke.oth.event_evaluator.persistence.entities.Benutzer;
 import de.biersaecke.oth.event_evaluator.persistence.entities.Eintrag;
 import de.biersaecke.oth.event_evaluator.persistence.entities.Festival;
@@ -156,8 +157,15 @@ public class KalenderService implements KalenderIF {
     @WebMethod( exclude = true )
     public void loeschenEintrag(Long eintragId) {
         Eintrag eintragEntity = entityManager.find(Eintrag.class, eintragId);
-        eintragEntity.getKalender().entfernenEintrag(eintragEntity);
 
+        TypedQuery<Long> countQuery = entityManager
+                .createNamedQuery(Auswertung.NQ_PARAMS_AUSWERTUNG_EINTRAEGE, Long.class);
+        countQuery.setParameter("pEintrag", eintragEntity);
+        if (countQuery.getSingleResult() > 0) {
+            throw new RuntimeException("Eintrag ist Teil einer (eventuell fremden) Auswertung und kann nicht gelöscht werden");
+        }
+
+        eintragEntity.getKalender().entfernenEintrag(eintragEntity);
         logger.warn("Lösche Eintrag: " + eintragEntity);
         entityManager.remove(eintragEntity);
     }

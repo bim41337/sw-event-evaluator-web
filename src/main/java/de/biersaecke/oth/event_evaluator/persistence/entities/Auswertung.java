@@ -32,13 +32,17 @@ import lombok.Setter;
 @NamedQueries( {
     @NamedQuery( name = Auswertung.NQ_PARAMS_AUSWERTUNG_NUTZER,
             query = "SELECT a FROM Auswertung a WHERE a.benutzer = :user" )
+    ,
+    @NamedQuery( name = Auswertung.NQ_PARAMS_AUSWERTUNG_EINTRAEGE,
+            query = "SELECT COUNT(a.id) FROM Auswertung a WHERE :pEintrag MEMBER OF a.posten" )
 } )
 public class Auswertung extends AbstractEntity {
 
     private static final Long serialVersionUID = 0L;
 
     public static final String NQ_NAME_PREFIX = "Auswertung.";
-    public static final String NQ_PARAMS_AUSWERTUNG_NUTZER = "auswertungenFuerBenutzer";
+    public static final String NQ_PARAMS_AUSWERTUNG_NUTZER = NQ_NAME_PREFIX + "auswertungenFuerBenutzer";
+    public static final String NQ_PARAMS_AUSWERTUNG_EINTRAEGE = NQ_NAME_PREFIX + "auswertungenEintraege";
 
     @Embedded
     @Column( nullable = false )
