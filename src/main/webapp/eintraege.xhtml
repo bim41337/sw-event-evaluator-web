@@ -27,14 +27,14 @@
                     <div class="four wide field">
                         <label>Von</label>
                         <h:inputText value="#{kalenderEintraegeBean.filterVon}">
-                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                             <f:passThroughAttribute name="type" value="date" />
                         </h:inputText>
                     </div>
                     <div class="four wide field">
                         <label>Bis</label>
                         <h:inputText value="#{kalenderEintraegeBean.filterBis}">
-                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                            <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                             <f:passThroughAttribute name="type" value="date" />
                         </h:inputText>
                     </div>

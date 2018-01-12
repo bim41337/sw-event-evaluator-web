@@ -71,9 +71,11 @@ public class ZeitraumUtils {
      * @return standardisierter Zeitraum
      */
     public static Zeitraum erstellenStandardZeitraum(Date start, Date ende) {
-        return new Zeitraum(new DateTime(start).withTimeAtStartOfDay().toDate(),
-                new DateTime(ende).withTime(23, 59, 0, 0).toDate()
-        );
+        Date startParsed = new DateTime(start).withTimeAtStartOfDay().toDate();
+        Date endeParsed = new DateTime(ende).withTime(23, 59, 59, 0).toDate();
+
+        Zeitraum zeitraum = new Zeitraum(startParsed, endeParsed);
+        return zeitraum;
     }
 
 }

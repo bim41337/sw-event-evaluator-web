@@ -36,14 +36,14 @@
                 <div class="four wide field">
                     <label>Von</label>
                     <h:inputText value="#{eintrag.start}">
-                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                         <f:passThroughAttribute name="type" value="date" />
                     </h:inputText>
                 </div>
                 <div class="three wide field">
                     <label><h:outputText value="&#160;" /></label>
                     <h:inputText value="#{editEintragBean.zeitraumZeitStart}">
-                        <f:convertDateTime pattern="HH:mm" timeZone="Europe/Berlin"/>
+                        <f:convertDateTime pattern="HH:mm" timeZone="CET"/>
                         <f:passThroughAttribute name="type" value="time" />
                     </h:inputText>
                 </div>
@@ -52,14 +52,14 @@
                 <div class="four wide field">
                     <label>Bis</label>
                     <h:inputText value="#{eintrag.ende}">
-                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                        <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                         <f:passThroughAttribute name="type" value="date" />
                     </h:inputText>
                 </div>
                 <div class="three wide field">
                     <label><h:outputText value="&#160;" /></label>
                     <h:inputText value="#{editEintragBean.zeitraumZeitEnde}">
-                        <f:convertDateTime pattern="HH:mm" timeZone="Europe/Berlin"/>
+                        <f:convertDateTime pattern="HH:mm" timeZone="CET"/>
                         <f:passThroughAttribute name="type" value="time" />
                     </h:inputText>
                 </div>

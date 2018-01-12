@@ -158,11 +158,14 @@ public class KalenderService implements KalenderIF {
     public void loeschenEintrag(Long eintragId) {
         Eintrag eintragEntity = entityManager.find(Eintrag.class, eintragId);
 
-        TypedQuery<Long> countQuery = entityManager
-                .createNamedQuery(Auswertung.NQ_PARAMS_AUSWERTUNG_EINTRAEGE, Long.class);
+        TypedQuery<Auswertung> countQuery = entityManager
+                .createNamedQuery(Auswertung.NQ_PARAMS_AUSWERTUNG_EINTRAEGE, Auswertung.class);
         countQuery.setParameter("pEintrag", eintragEntity);
-        if (countQuery.getSingleResult() > 0) {
-            throw new RuntimeException("Eintrag ist Teil einer (eventuell fremden) Auswertung und kann nicht gelöscht werden");
+        List<Auswertung> eintragAuswertungen = countQuery.getResultList();
+        if (eintragAuswertungen.size() > 0) {
+            eintragAuswertungen.forEach((auswertung) -> {
+                auswertung.entfernenPosten(eintragEntity);
+            });
         }
 
         eintragEntity.getKalender().entfernenEintrag(eintragEntity);
@@ -371,6 +374,12 @@ public class KalenderService implements KalenderIF {
         }
 
         logger.warn("Lösche Kalender: " + kalenderEntity);
+        if (kalenderEntity.getEintraege().size() > 0) {
+            List<Eintrag> tmpEintraegeList = new ArrayList<>(kalenderEntity
+                    .getEintraege());
+            tmpEintraegeList.stream().mapToLong(Eintrag::getId)
+                    .forEach(this::loeschenEintrag);
+        }
         kalenderEntity.getBenutzer().entfernenKalender(kalenderEntity);
         entityManager.remove(kalenderEntity);
     }

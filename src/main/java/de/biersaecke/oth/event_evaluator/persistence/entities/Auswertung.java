@@ -34,7 +34,7 @@ import lombok.Setter;
             query = "SELECT a FROM Auswertung a WHERE a.benutzer = :user" )
     ,
     @NamedQuery( name = Auswertung.NQ_PARAMS_AUSWERTUNG_EINTRAEGE,
-            query = "SELECT COUNT(a.id) FROM Auswertung a WHERE :pEintrag MEMBER OF a.posten" )
+            query = "SELECT a FROM Auswertung a WHERE :pEintrag MEMBER OF a.posten" )
 } )
 public class Auswertung extends AbstractEntity {
 

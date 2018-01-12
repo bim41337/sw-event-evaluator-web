@@ -43,19 +43,19 @@ import org.joda.time.DateTime;
 @DiscriminatorValue( "E" )
 @NamedQueries( {
     @NamedQuery( name = Eintrag.NQ_PARAMS_EINTRAEGE_ORT_ZEITRAUM_OEFFENTLICH,
-            query = "SELECT evt FROM Eintrag evt WHERE lower(evt.ort) like lower(concat('%', :oName, '%')) AND ((evt.start BETWEEN :zStart AND :zEnde) OR (evt.ende BETWEEN :zStart AND :zEnde)) AND evt.oeffentlich = TRUE" )
+            query = "SELECT evt FROM Eintrag evt WHERE lower(evt.ort) like lower(concat('%', :oName, '%')) AND (evt.start <= :zEnde AND evt.ende >= :zStart) AND evt.oeffentlich = TRUE" )
     ,
     @NamedQuery( name = Eintrag.NQ_PARAMS_EINTRAEGE_ZEITRAUM_OEFFENTLICH,
-            query = "SELECT evt FROM Eintrag evt WHERE (((evt.start BETWEEN :zStart AND :zEnde) OR (evt.ende BETWEEN :zStart AND :zEnde)) AND evt.oeffentlich = TRUE)" )
+            query = "SELECT evt FROM Eintrag evt WHERE ((evt.start <= :zEnde AND evt.ende >= :zStart) AND evt.oeffentlich = TRUE)" )
     ,
     @NamedQuery( name = Eintrag.NQ_PARAMS_EINTRAEGE_BEGRIFF_ZEITRAUM_OEFFENTLICH,
-            query = "SELECT evt FROM Eintrag evt WHERE lower(evt.titel) like lower(concat('%', :pBegriff, '%')) AND ((evt.start BETWEEN :zStart AND :zEnde) OR (evt.ende BETWEEN :zStart AND :zEnde)) AND evt.oeffentlich = TRUE" )
+            query = "SELECT evt FROM Eintrag evt WHERE lower(evt.titel) like lower(concat('%', :pBegriff, '%')) AND (evt.start <= :zEnde AND evt.ende >= :zStart) AND evt.oeffentlich = TRUE" )
     ,
     @NamedQuery( name = Eintrag.NQ_PARAMS_EINTRAEGE_ZEITRAUM_USER,
-            query = "SELECT evt FROM Eintrag evt WHERE ((evt.start BETWEEN :zStart AND :zEnde) OR (evt.ende BETWEEN :zStart AND :zEnde)) AND (evt.oeffentlich = TRUE OR evt.kalender.benutzer = :user)" )
+            query = "SELECT evt FROM Eintrag evt WHERE (evt.start <= :zEnde AND evt.ende >= :zStart) AND (evt.oeffentlich = TRUE OR evt.kalender.benutzer = :user)" )
     ,
     @NamedQuery( name = Eintrag.NQ_PARAMS_EINTRAEGE_BEGRIFF_ZEITRAUM_USER,
-            query = "SELECT evt FROM Eintrag evt WHERE lower(evt.titel) like lower(concat('%', :pBegriff, '%')) AND ((evt.start BETWEEN :zStart AND :zEnde) OR (evt.ende BETWEEN :zStart AND :zEnde)) AND (evt.oeffentlich = TRUE OR evt.kalender.benutzer = :user)" )
+            query = "SELECT evt FROM Eintrag evt WHERE lower(evt.titel) like lower(concat('%', :pBegriff, '%')) AND (evt.start <= :zEnde AND evt.ende >= :zStart) AND (evt.oeffentlich = TRUE OR evt.kalender.benutzer = :user)" )
     ,
     @NamedQuery( name = Eintrag.NQ_PARAMS_SUCHE_USER,
             query = "SELECT evt FROM Eintrag evt WHERE ((evt.titel LIKE :term) OR (evt.details LIKE :term)) AND (evt.oeffentlich = TRUE OR evt.kalender.benutzer = :user)" )
@@ -64,7 +64,7 @@ import org.joda.time.DateTime;
             query = "SELECT evt FROM Eintrag evt WHERE evt.kalender = :pKalender" )
     ,
     @NamedQuery( name = Eintrag.NQ_PARAMS_EINTRAEGE_ZU_KALENDER_ZEITRAUM,
-            query = "SELECT evt FROM Eintrag evt WHERE evt.kalender = :pKalender AND ((evt.start BETWEEN :zStart AND :zEnde) OR (evt.ende BETWEEN :zStart AND :zEnde))" )
+            query = "SELECT evt FROM Eintrag evt WHERE evt.kalender = :pKalender AND (evt.start <= :zEnde AND evt.ende >= :zStart)" )
 } )
 public class Eintrag extends AbstractEntity implements Comparable<Eintrag> {
 

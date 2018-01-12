@@ -23,14 +23,14 @@
                             <div class="field">
                                 <label>Von</label>
                                 <h:inputText value="#{auswertungenBean.zeitraumStart}">
-                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                                     <f:passThroughAttribute name="type" value="date" />
                                 </h:inputText>
                             </div>
                             <div class="field">
                                 <label>Bis</label>
                                 <h:inputText value="#{auswertungenBean.zeitraumEnde}">
-                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                                     <f:passThroughAttribute name="type" value="date" />
                                 </h:inputText>
                             </div>

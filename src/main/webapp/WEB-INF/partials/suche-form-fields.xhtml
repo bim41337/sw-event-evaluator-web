@@ -18,14 +18,14 @@
             <div class="four wide field">
                 <label>Von</label>
                 <h:inputText value="#{sucheBean.zeitraumStart}">
-                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                     <f:passThroughAttribute name="type" value="date" />
                 </h:inputText>
             </div>
             <div class="four wide field">
                 <label>Bis</label>
                 <h:inputText value="#{sucheBean.zeitraumEnde}">
-                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="Europe/Berlin"/>
+                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET"/>
                     <f:passThroughAttribute name="type" value="date" />
                 </h:inputText>
             </div>
