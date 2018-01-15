@@ -1,0 +1,56 @@
+<html  
+    xmlns = "http://www.w3.org/1999/xhtml"
+    xmlns:ui = "http://xmlns.jcp.org/jsf/facelets">
+
+    <ui:composition template="./WEB-INF/templates/page-template.xhtml">
+
+        <ui:define name="title">Erläuterung Event Evaluator</ui:define>
+
+        <ui:define name="page-content">
+
+            <h3 class="ui dividing header">
+                Event Evaluator
+                <div class="sub header">Erläuterung der Anwendung</div>
+            </h3>
+            <ul class="ui list">
+                <li><b>Grundlegend</b>
+                    <ul>
+                        <li>Es können beliebig Nutzer für den Test registiert werden</li>
+                        <li>Der Nutzer <i>OthUser</i> mit Passwort <i>oth123</i> hat bereits einige Testdaten</li>
+                        <li>Löschen von Kalendern und Einträgen geschieht von den Bearbeitungsmasken aus</li>
+                    </ul>
+                </li>
+                <div class="ui horizontal divider"></div>
+                <li><b>Bereich ohne Registrierung</b>
+                    <ul>
+                        <li>Login: Anmeldeformular für registrierte Benutzer</li>
+                        <li>Registrieren: Formular zur Registrierung neuer Benutzer</li>
+                        <li>Öffentliche Suche: Suche nach öffentliche Einträgen aller registrierten Benutzer anhand der Titel</li>
+                    </ul>
+                </li>
+                <div class="ui horizontal divider"></div>
+                <li><b>Bereich für angemeldete Nutzer</b>
+                    <ul>
+                        <li><b>Kalender</b>
+                            <ul>
+                                <li>Eintragen und Bearbeiten neuer Kalender</li>
+                                <li>Anzeigen, Hinzufügen und Bearbeiten von Kalendereinträgen</li>
+                            </ul>
+                        </li>
+                        <li><b>Auswertungen</b>
+                            <ul>
+                                <li>Auswerten von Zeiträumen</li>
+                                <li>Speichern von Auswertungen</li>
+                                <li>Anzeigen und Löschen gespeicherter Auswertungen</li>
+                            </ul>
+                        </li>
+                        <li>Suchen: Suche nach öffentlichen Einträgen anderer Nutzer sowie unter allen eigenen Einträgen anhand der Titel</li>
+                    </ul>
+                </li>
+            </ul>
+
+        </ui:define>
+
+    </ui:composition>
+
+</html>
